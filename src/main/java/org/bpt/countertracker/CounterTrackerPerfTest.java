@@ -2,7 +2,6 @@ package org.bpt.countertracker;
 
 import java.util.concurrent.TimeUnit;
 
-import org.bpt.countertracker.CounterTracker.CounterTrackerBuilder;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
 import org.openjdk.jmh.annotations.Mode;
@@ -12,7 +11,7 @@ import org.openjdk.jmh.annotations.State;
 
 
 /**
- * Performance test suite for {@link CounterTracker} API's.
+ * Performance test suite for {@link CounterSet} API's.
  * 
  * @author toaler
  *
@@ -25,23 +24,16 @@ public class CounterTrackerPerfTest {
 		BAZ;
 	}
 	
-	public enum Boo {
-		FAR,
-		FAZ;
-	}
-	
 	@State(Scope.Benchmark)
 	public static class Counter {
-		private CounterTracker counter;
+		private CounterSet<Foo> counter;
 		
 		public Counter() {
-			CounterTrackerBuilder builder = CounterTrackerBuilder.newInstance();
-			builder.addType(Foo.class).addType(Boo.class);
-			counter = builder.build();
+			counter = CounterSet.<Foo>newInstance(Foo.class);
 			
 		}
 
-		public CounterTracker getCounter() {
+		public CounterSet<Foo> getCounter() {
 			return counter;
 		}
 	}
